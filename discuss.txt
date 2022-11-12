@@ -1,0 +1,13 @@
+//USerschema
+{
+    email:unique,req,string,
+    password:string,
+    message:[],
+    report:[{
+        exercise_name,image,muscle_name
+    },{
+        exercise_name,image,muscle_name
+    }],
+    userDetail:{h,w,dob}
+    photos:[]
+}

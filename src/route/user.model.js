@@ -1,10 +1,23 @@
 const mongoose =require("mongoose")
 
+const userDetailsSchema=new mongoose.Schema({
+    height:{type:number},
+    weight:{type:number},
+    dob:{type:String}
+})
+const reportSchema=new mongoose.Schema({
+    height:{type:number},
+    weight:{type:number},
+    dob:{type:String}
+})
 
 const userSchema=new mongoose.Schema({
-    name:{type:String},
     email:{type:String,require:true,unique:true},
-    password:{type:String,require:true}
+    password:{type:String},
+    userDetail:{type:Object},
+    message:{type:Array},
+    photos:{type:Array},
+    
 
 })
 
