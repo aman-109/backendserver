@@ -22,10 +22,10 @@ app.get("/",async(req,res)=>{
 })
 
 /* delete a user */
-app.delete("/:id", async (req, res) => {
-    let id = req.params.id
+app.delete("/:email", async (req, res) => {
+    let email = req.params.email
     try {
-        let existing = await User.findByIdAndDelete(id)
+        let existing = await User.findOneAndDelete({email})
         if(existing){
             res.send("User deleted successfully")
         } else {
@@ -50,7 +50,24 @@ app.post("/", async (req, res) => {
             let user = await User.create({
                 email,password,userDetail,message,photos,report
             })
-            res.send({token: `${user._id}:${email}`})
+            res.send({token: `${user._id}:${email}:muscleFit`})
+        }
+    } catch (e) {
+        res.status(404).send(e.message)
+    }
+   
+})
+
+/* update user */
+app.patch("/", async (req, res) => {
+    const {email,userDetail,message,photos,report,password} = req.body
+   /*  let id = req.params.id */
+    try {
+        let existing = await User.findOneAndUpdate({email},{email,userDetail,message,photos,report,password})
+        if(existing){
+            res.send("User updated successfully")
+        } else {
+            res.send("user not found")
         }
     } catch (e) {
         res.status(404).send(e.message)
@@ -59,14 +76,14 @@ app.post("/", async (req, res) => {
 })
 
 /* get single user */
-app.get("/:id", async (req, res) => {
-    const id = req.params.id;
+app.get("/:email", async (req, res) => {
+    const email = req.params.email;
     try {
-        let user = await User.findOne({id});
+        let user = await User.findOne({email});
         if(user){
             res.send(user)
         } else {
-            res.status(404).send(`user ${id} not found`)
+            res.status(404).send(`user ${email} not found`)
         }
     } catch (e) {
         res.status(404).send(e.message)
